@@ -197,8 +197,8 @@ static gnString gnCombineStringsString(const gnString string, const gnString val
 )(string, value)
 
 static gnBool gnStringEqualsCharPtr(const gnString string, gnChar* val) { return (strcmp(string.value, val) == 0); }
-static gnBool gnStringEqualsConstCharPtr(const gnString string,const gnChar* val) { return (strcmp(string.value, const_cast<char*>(val)) == 0); }
-static gnBool gnStringEqualsString(const gnString string, const gnString val) { return (strcmp(string.value, const_cast<char*>(val.value)) == 0); }
+static gnBool gnStringEqualsConstCharPtr(const gnString string,const gnChar* val) { return (strcmp(string.value, (gnChar*)val) == 0); }
+static gnBool gnStringEqualsString(const gnString string, const gnString val) { return (strcmp(string.value, val.value) == 0); }
 
 #define gnStringEquals(string, value) _Generic((value), \
     gnChar*: gnStringEqualsCharPtr, \
@@ -224,7 +224,7 @@ static void gnSetStringToConstCharPtr(gnString* string, const gnChar* input) {
     strcpy(string->value, input);
     string->value[strlen(input)] = '\0';
 }
-static void gnSetStringToString(gnString* string, const gnString& input) {
+static void gnSetStringToString(gnString* string, const gnString input) {
     string->value = (gnChar*)malloc(sizeof(gnChar) * (strlen(input.value) + 1));
     strcpy(string->value, input.value);
     string->value[strlen(input.value)] = '\0';
