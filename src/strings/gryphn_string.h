@@ -54,16 +54,16 @@ typedef struct gnString {
     void operator +=(gnChar val) { value = add_char_to_string(value, val); }
     void operator +=(gnChar* val) { value = add_string_to_string(value, val); }
     void operator +=(const gnChar* val) { value = add_string_to_string(value, const_cast<char*>(val)); }
-    void operator +=(const gnString& string) { value = add_string_to_string(value, const_cast<char*>(gnToCString(string))); }
+    void operator +=(const gnString& string) { value = add_string_to_string(value, string.value); }
 
     gnString operator +(gnChar val) { return gnString(add_char_to_string(value, val)); }
     gnString operator +(gnChar* val){ return gnString(add_string_to_string(value, val)); }
     gnString operator +(const gnChar* val) { return gnString(add_string_to_string(value, const_cast<char*>(val))); }
-    gnString operator +(const gnString& val) { return gnString(add_string_to_string(value, const_cast<char*>(val.value))); }
+    gnString operator +(const gnString& val) { return gnString(add_string_to_string(value, val.value)); }
 
     gnBool operator ==(char* val) { return (strcmp(value, val) == 0); }
     gnBool operator ==(const char* val) { return (strcmp(value, const_cast<char*>(val)) == 0); }
-    gnBool operator ==(const gnString& val) { return (strcmp(value, const_cast<char*>(val.value)) == 0); }
+    gnBool operator ==(const gnString& val) { return (strcmp(value, val.value) == 0); }
 
     void operator =(char val) {
         this->value = new char[2];
