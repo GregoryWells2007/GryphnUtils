@@ -24,8 +24,7 @@ static char* add_char_to_string(char* str1, char str2) {
 typedef char gnChar;
 
 typedef struct gnString {
-    char* value;
-
+    gnChar* value;
 #ifdef GN_UTILS_CPP
     gnString(const gnChar* input) {
         this->value = new gnChar[strlen(input) + 1]; // so like my dumbass forgot to put this earlier and some shit was broken but now it fixed
@@ -52,41 +51,53 @@ typedef struct gnString {
 
     char operator[](int index) { return value [index]; }
     const char operator[](int index) const { return value [index]; }
-    // void operator +=(gnChar val) { value = add_string(value, val); }
-    // void operator +=(gnChar* val) { value = add_string(value, val); }
-    // void operator +=(const gnChar* val) { value = add_string(value, const_cast<char*>(val)); }
-    // void operator +=(const gnString& string) { value = add_string(value, const_cast<char*>(gnToCString(string))); }
+    void operator +=(gnChar val) { value = add_char_to_string(value, val); }
+    void operator +=(gnChar* val) { value = add_string_to_string(value, val); }
+    void operator +=(const gnChar* val) { value = add_string_to_string(value, const_cast<char*>(val)); }
+    void operator +=(const gnString& string) { value = add_string_to_string(value, const_cast<char*>(gnToCString(string))); }
 
-    // gnString operator +(gnChar val) { return gnString(add_string(value, val)); }
-    // gnString operator +(gnChar* val){ return gnString(add_string(value, val)); }
-    // gnString operator +(const gnChar* val) { return gnString(add_string(value, const_cast<char*>(val))); }
-    // gnString operator +(const gnString& val) { return gnString(add_string(value, const_cast<char*>(val.value))); }
+    gnString operator +(gnChar val) { return gnString(add_char_to_string(value, val)); }
+    gnString operator +(gnChar* val){ return gnString(add_string_to_string(value, val)); }
+    gnString operator +(const gnChar* val) { return gnString(add_string_to_string(value, const_cast<char*>(val))); }
+    gnString operator +(const gnString& val) { return gnString(add_string_to_string(value, const_cast<char*>(val.value))); }
 
+    gnBool operator ==(char* val) { return (strcmp(value, val) == 0); }
+    gnBool operator ==(const char* val) { return (strcmp(value, const_cast<char*>(val)) == 0); }
+    gnBool operator ==(const gnString& val) { return (strcmp(value, const_cast<char*>(val.value)) == 0); }
+
+    void operator =(char val) {
+        this->value = new char[2];
+        this->value[0] = val;
+        this->value[1] = '\0';
+    }
+    void operator =(char* val) { this->value = val; }
+    void operator =(const char* val) { this->value = const_cast<char*>(val); }
+    void operator =(const gnString& val) { this->value = val.value; }
 #endif
 } gnString;
 
-gnString gnCreateStringFromConstCharPtr(const gnChar* input) {
+static gnString gnCreateStringFromConstCharPtr(const gnChar* input) {
     gnString string;
     string.value = (char*)malloc(sizeof(char) * (strlen(input) + 1));
     strcpy(string.value, input);
     string.value[strlen(input)] = '\0';
     return string;
 }
-gnString gnCreateStringFromCharPtr(gnChar* input) {
+static gnString gnCreateStringFromCharPtr(gnChar* input) {
     gnString sting;
     sting.value = (char*)malloc(sizeof(char) * (strlen(input) + 1));
     strcpy(sting.value, input);
     sting.value[strlen(input)] = '\0';
     return sting;
 }
-gnString gnCreateStringFromChar(gnChar input) {
+static gnString gnCreateStringFromChar(gnChar input) {
     gnString string;
     string.value = (char*)malloc(sizeof(char) * 2);
     string.value[0] = input;
     string.value[1] = '\0';
     return string;
 }
-gnString gnCreateEmptyString() {
+static gnString gnCreateEmptyString() {
     gnString string;
     string.value = (char*)malloc(sizeof(char));
     string.value[0] = '\0';
@@ -99,15 +110,15 @@ gnString gnCreateEmptyString() {
     gnChar: gnCreateStringFromChar \
 )(input)
 
-const char* gnToCString(const gnString string) { return string.value; }
-int gnStringLength(const gnString string) { return strlen(string.value); }
-int gnStringFindChar(const gnString string, const gnChar letter) {
+static const char* gnToCString(const gnString string) { return string.value; }
+static int gnStringLength(const gnString string) { return strlen(string.value); }
+static int gnStringFindChar(const gnString string, const gnChar letter) {
     for (int i = 0; i < strlen(string.value); i++)
         if (string.value[i] == letter)
             return i;
     return -1;
 }
-int gnStringFindString(const gnString string, const gnString value) {
+static int gnStringFindString(const gnString string, const gnString value) {
     char first_char = value.value[0];
     for (int i = 0; i < strlen(string.value); i++)
         if (string.value[i] == first_char) {
@@ -123,7 +134,7 @@ int gnStringFindString(const gnString string, const gnString value) {
         }
     return -1;
 }
-gnString gnSubstring(const gnString string, int index1, int index2) {
+static gnString gnSubstring(const gnString string, int index1, int index2) {
     if (index2 == -1) index2 = gnStringLength(string);
     char* out_value = (char*)malloc(sizeof(char) * ((index2 - index1) + 1));
     for (int i = 0; i < (index2 - index1); i++)
@@ -132,7 +143,7 @@ gnString gnSubstring(const gnString string, int index1, int index2) {
     return gnCreateString(out_value); // zero error checking on this function should really add that in later but like I dont have a logging library that I want to use
                                       // my code never breaks either so I dont need error checks, il just not make errors cuz im not tim
 }
-int gnLetterCount(const gnString string, const gnChar letter) {
+static int gnLetterCount(const gnString string, const gnChar letter) {
     int count = 0;
     for (int i = 0; i < gnStringLength(string); i++) if (string.value[i] == letter) count++;
     return count;
@@ -142,19 +153,18 @@ int gnLetterCount(const gnString string, const gnChar letter) {
     const gnChar: gnStringFindChar, \
     const gnString: gnStringFindValue \
 )(string, value)
-gnString gnSubstring(const gnString string, int index1, int index2);
 
-void gnAddCharToString(gnString string, gnChar val) {
-    string.value = add_char_to_string(string.value, val);
+static void gnAddCharToString(gnString* string, gnChar val) {
+    string->value = add_char_to_string(string->value, val);
 }
-void gnAddCharPtrToString(gnString string, gnChar* val) {
-    string.value = add_string_to_string(string.value, val);
+static void gnAddCharPtrToString(gnString* string, gnChar* val) {
+    string->value = add_string_to_string(string->value, val);
 }
-void gnAddConstCharPtrToString(gnString string, const gnChar* val) {
-    string.value = add_string_to_string(string.value, (gnChar*)val);
+static void gnAddConstCharPtrToString(gnString* string, const gnChar* val) {
+    string->value = add_string_to_string(string->value, (gnChar*)val);
 }
-void gnAddContGnStringToString(gnString string, gnString val) {
-    string.value = add_string_to_string(string.value, val.value);
+static void gnAddContGnStringToString(gnString* string, gnString val) {
+    string->value = add_string_to_string(string->value, val.value);
 }
 
 #define gnAddToString(string, value) _Generic((value), \
@@ -165,16 +175,16 @@ void gnAddContGnStringToString(gnString string, gnString val) {
     gnString: gnAddContGnStringToString \
 )(string, value)
 
-gnString gnCombineStringsChar(const gnString string, gnChar val) {
+static gnString gnCombineStringsChar(const gnString string, gnChar val) {
      return gnCreateString(add_char_to_string(string.value, val));
 }
-gnString gnCombineStringsCharPtr(const gnString string, gnChar* val) {
+static gnString gnCombineStringsCharPtr(const gnString string, gnChar* val) {
     return gnCreateString(add_string_to_string(string.value, val));
 }
-gnString gnCombineStringsConstCharPtr(const gnString string, const gnChar* val) {
+static gnString gnCombineStringsConstCharPtr(const gnString string, const gnChar* val) {
     return gnCreateString(add_string_to_string(string.value, (gnChar*)val));
 }
-gnString gnCombineStringsString(const gnString string, const gnString val) {
+static gnString gnCombineStringsString(const gnString string, const gnString val) {
     return gnCreateString(add_string_to_string(string.value, val.value));
 }
 
@@ -185,28 +195,45 @@ gnString gnCombineStringsString(const gnString string, const gnString val) {
     const gnChar*: gnCombineStringsConstCharPtr, \
     gnString: gnCombineStringsString \
 )(string, value)
-//     gnBool operator ==(char* val) { return (strcmp(value, val) == 0); }
-//     gnBool operator ==(const char* val) { return (strcmp(value, const_cast<char*>(val)) == 0); }
-//     gnBool operator ==(const gnString& val) { return (strcmp(value, const_cast<char*>(val.value)) == 0); }
 
-//     void operator =(char val) {
-//         this->value = new char[2];
-//         this->value[0] = val;
-//         this->value[1] = '\0';
-//     }
-//     void operator =(char* val) { this->value = val; }
-//     void operator =(const char* val) { this->value = const_cast<char*>(val); }
-//     void operator =(const gnString& val) { this->value = val.value; }
-// };
+static gnBool gnStringEqualsCharPtr(const gnString string, gnChar* val) { return (strcmp(string.value, val) == 0); }
+static gnBool gnStringEqualsConstCharPtr(const gnString string,const gnChar* val) { return (strcmp(string.value, const_cast<char*>(val)) == 0); }
+static gnBool gnStringEqualsString(const gnString string, const gnString val) { return (strcmp(string.value, const_cast<char*>(val.value)) == 0); }
 
-// inline gnBool gnStringEquals(const gnString& string, char* val) { return (strcmp(string.value, val) == 0); }
-// inline gnBool gnStringEquals(const gnString& string,const char* val) { return (strcmp(string.value, const_cast<char*>(val)) == 0); }
-// inline gnBool gnStringEquals(const gnString& string, const gnString& val) { return (strcmp(string.value, const_cast<char*>(val.value)) == 0); }
+#define gnStringEquals(string, value) _Generic((value), \
+    gnChar*: gnStringEqualsCharPtr, \
+    const gnChar*: gnStringEqualsConstCharPtr, \
+    gnString: gnStringEqualsString \
+)(string, value)
 
-// inline gnChar gnGetCharAt(const gnString& string, int index) { return string.value[0]; }
-// inline void gnSetCharAt(gnString& string, int index, gnChar letter) { string.value[0] = letter; }
+static gnChar gnGetCharAt(const gnString string, int index) { return string.value[0]; }
+static void gnSetCharAt(gnString* string, int index, gnChar letter) { string->value[0] = letter; }
 
-// inline void gnSetString(gnString& string, const gnString& input) { string.value = input.value; }
-// inline void gnSetString(gnString& string, const gnChar* input) { string.value = const_cast<char*>(input); }
-// inline void gnSetString(gnString& string, gnChar* input) { string.value = input; }
-// inline void gnSetString(gnString& string, gnChar input) { string = input; }
+static void gnSetStringToChar(gnString* string, gnChar input) {
+    string->value = (gnChar*)malloc(sizeof(gnChar) * 2);
+    string->value[0] = input;
+    string->value[1] = '\0';
+}
+static void gnSetStringToCharPtr(gnString* string, gnChar* input) {
+    string->value = (gnChar*)malloc(sizeof(gnChar) * (strlen(input) + 1));
+    strcpy(string->value, input);
+    string->value[strlen(input)] = '\0';
+}
+static void gnSetStringToConstCharPtr(gnString* string, const gnChar* input) {
+    string->value = (gnChar*)malloc(sizeof(gnChar) * (strlen(input) + 1));
+    strcpy(string->value, input);
+    string->value[strlen(input)] = '\0';
+}
+static void gnSetStringToString(gnString* string, const gnString& input) {
+    string->value = (gnChar*)malloc(sizeof(gnChar) * (strlen(input.value) + 1));
+    strcpy(string->value, input.value);
+    string->value[strlen(input.value)] = '\0';
+}
+
+#define gnSetString(string, value) _Generic((value), \
+    gnChar: gnSetStringToChar, \
+    int: gnSetStringToChar, \
+    gnChar*: gnSetStringToCharPtr, \
+    const gnChar*: gnSetStringToConstCharPtr, \
+    gnString: gnSetStringToString \
+)(string, value)
