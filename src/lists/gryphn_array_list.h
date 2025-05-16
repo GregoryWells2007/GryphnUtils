@@ -5,12 +5,12 @@ typedef struct gnArrayList {
     int count;
     int maxCount;
     void* data;
-} gnCList;
+} gnArrayList;
 
 const int GROWTH_RATE = 2; // i heard somewhere that 1.5 is better but imma use 2 because I also heard that its better somewhere else
 
 inline gnArrayList gnCreateArrayList(int count) {
-    gnCList newList;
+    gnArrayList newList;
 
     if (count == 0) {
 
