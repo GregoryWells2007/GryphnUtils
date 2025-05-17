@@ -36,7 +36,7 @@ typedef struct gnUInt3 {
     };
 
 #ifdef GN_UTILS_CPP
-    gnUInt3(uint32_t x, uint32_t y) { this->x = x; this->y = y; this->z = z; }
+    gnUInt3(uint32_t x, uint32_t y, uint32_t z) { this->x = x; this->y = y; this->z = z; }
     gnUInt3(uint32_t s) { this->x = s; this->y = s; this->z = s; }
     gnUInt3() {};
 
@@ -49,7 +49,7 @@ typedef struct gnUInt3 {
     }
 
     bool operator==(const gnUInt3& other) const {
-        return this->a == other.a && this->b == other.b && this->c = other.c;
+        return this->a == other.a && this->b == other.b && this->c == other.c;
     }
 #endif
 } gnUInt3;
