@@ -1,7 +1,7 @@
 #pragma once
 #include <stdlib.h>
 #include <string.h>
-#include "../gryphn_bool.h"
+#include "gryphn_bool.h"
 
 static char* add_string_to_string(char* str1, char* str2) {
     char* buffer = (char*)malloc(sizeof(char) * (strlen(str1) + strlen(str2) + 1));
