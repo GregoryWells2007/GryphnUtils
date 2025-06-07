@@ -29,3 +29,15 @@ typedef struct gnColor {
     }
     #endif
 } gnColor;
+
+typedef struct gnClearValue {
+    union {
+      struct {
+          float r, g, b, a;
+      };
+
+      struct {
+          float red, green, blue, alpha;
+      };
+    };
+} gnClearValue;
