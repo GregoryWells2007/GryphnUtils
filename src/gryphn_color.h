@@ -1,4 +1,4 @@
-#include "../math/gryphn_vec4.h"
+#pragma once
 
 typedef struct gnColor {
     union {

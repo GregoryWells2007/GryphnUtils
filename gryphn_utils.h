@@ -5,14 +5,13 @@
 
 #include "src/gryphn_bool.h"
 #include "src/gryphn_error_code.h"
-#include "src/version/gryphn_version.h"
+#include "src/gryphn_version.h"
 #include "src/math/gryphn_vec2.h"
 #include "src/math/gryphn_vec3.h"
 #include "src/math/gryphn_vec4.h"
-#include "src/types/gryphn_color.h"
-#include "src/types/gryphn_color_format.h"
-#include "src/types/gryphn_image_format.h"
-#include "src/gryphn_access_level.h"
+#include "src/gryphn_color.h"
+#include "src/gryphn_color_format.h"
+#include "src/gryphn_image_format.h"
 
 typedef uint32_t gnUInt;
 typedef char gnByte;

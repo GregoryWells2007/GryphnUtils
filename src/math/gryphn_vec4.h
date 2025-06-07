@@ -1,7 +1,3 @@
-// typedef gnType4<uint32_t> gnUInt4;
-// typedef gnType4<int32_t> gnInt4;
-
-
 #pragma once
 #include "stdint.h"
 
