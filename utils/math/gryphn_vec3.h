@@ -1,5 +1,6 @@
 #pragma once
 #include "stdint.h"
+#include "math.h"
 
 typedef struct gnVec3 {
     union {
@@ -25,6 +26,16 @@ typedef struct gnVec3 {
     }
 #endif
 } gnVec3;
+
+static const inline gnVec3 gnVec3Subtract(gnVec3 a, gnVec3 b) { return (gnVec3){ a.x - b.x, a.y - b.y, a.z - b.z }; }
+static const inline gnVec3 gnVec3Add(gnVec3 a, gnVec3 b) { return (gnVec3){ a.x + b.x, a.y + b.y, a.z + b.z }; }
+static const inline gnVec3 gnVec3Normalize(gnVec3 in) {
+    float lengthOfVector = sqrt((in.x * in.x) + (in.y * in.y) + (in.z * in.z));
+    return (gnVec3){in.x / lengthOfVector, in.y / lengthOfVector, in.z / lengthOfVector};
+}
+static const inline gnVec3 gnVec3Cross(gnVec3 a, gnVec3 b) { return (gnVec3){a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x}; }
+static const inline float gnVec3Dot(gnVec3 a, gnVec3 b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
+
 
 typedef gnVec3 gnFVec3;
 typedef gnVec3 gnFloat3;

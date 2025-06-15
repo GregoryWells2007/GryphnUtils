@@ -25,6 +25,8 @@ typedef struct gnVec2 {
 #endif
 } gnVec2;
 
+static inline const gnVec2 gnVec2Subtract(gnVec2 a, gnVec2 b) { return (gnVec2){ a.x - b.x, a.y - b.y }; }
+
 typedef gnVec2 gnFVec2;
 typedef gnVec2 gnFloat2;
 
