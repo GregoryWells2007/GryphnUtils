@@ -2,7 +2,8 @@
 
 typedef enum gnImageFormat {
     GN_FORMAT_NONE,
-    GN_FORMAT_BGRA8_SRGB
+    GN_FORMAT_BGRA8_SRGB,
+    GN_FORMAT_RGBA8_SRGB
 } gnImageFormat;
 
 typedef enum gnColorSpace {

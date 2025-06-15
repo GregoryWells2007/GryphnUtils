@@ -34,16 +34,14 @@ static inline const gnMat4x4 gnOrthographic(
 static inline const gnMat4x4 gnProjection(
     float fov, float aspect, float near, float far
 ) {
+    float f = 1.0f / tan(fov * 0.5f);
+
     return (gnMat4x4){
         .mat = {
-            { 1/(aspect * tan(fov/2)), 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1/tan(fov/2), 0.0f, 0.0f },
-            { 0.0f, 0.0f, -((far+near)/(far-near)), -((2*far*near)/(far-near)) },
-            { 0.0f, 0.0f, -1.0f, 1.0f }
-            // { 1/(aspect * tan(fov/2)), 0.0f, 0.0f, 0.0f },
-            // { 0.0f, 1/tan(fov/2), 0.0f, 0.0f },
-            // { 0.0f, 0.0f, -((far+near)/(far-near)), -((2*far*near)/(far-near)) },
-            // { 0.0f, 0.0f, -1.0f, 0.0f }
+            { f / aspect, 0.0f, 0.0f,                             0.0f },
+            { 0.0f      , f   , 0.0f,                             0.0f },
+            { 0.0f      , 0.0f, (far + near) / (near - far),     -1.0f },
+            { 0.0f      , 0.0f, (2 * far * near) / (near - far),  0.0f }
         }
     };
 }

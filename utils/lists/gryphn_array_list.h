@@ -1,49 +1,30 @@
 #pragma once
+#include "stdint.h"
 #include "stdlib.h"
 
-typedef struct gnArrayList {
-    int count;
-    int maxCount;
-    void* data;
-} gnArrayList;
-
-const int GROWTH_RATE = 2; // i heard somewhere that 1.5 is better but imma use 2 because I also heard that its better somewhere else
-
-inline gnArrayList gnCreateArrayList(int count) {
-    gnArrayList newList;
-
-    if (count == 0) {
-
-    } else {
-        newList.count = count;
-        newList.maxCount = count;
-        newList.data = malloc(sizeof(void*) * count);
-    }
-
-    return newList;
+#define GN_ARRAY_LIST(type)\
+typedef struct type##ArrayList { \
+uint32_t count; \
+uint32_t maxSize; \
+type* data; \
+} type##ArrayList; \
+inline static type##ArrayList type##ArrayListCreate() { \
+type##ArrayList list;\
+list.maxSize = 2; \
+list.count = 0;\
+list.data = malloc(sizeof(type) * list.maxSize); \
+return list; \
+}\
+inline static void type##ArrayListReserve(type##ArrayList* list, int count) { \
+int newCount = count - (list->maxSize - list->count);\
+list->data = realloc(list->data, sizeof(type) * (newCount + list->maxSize)); \
+list->maxSize += newCount; \
+}\
+inline static void type##ArrayListResize(type##ArrayList* list, int count) { \
+int newCount = count - (list->maxSize - list->count);\
+list->data = realloc(list->data, sizeof(type) * (newCount + list->maxSize)); \
+list->maxSize += newCount; \
+list->count += count; \
 }
 
-inline void gnArrayListResize(gnArrayList* cList, int count) {
-    cList->count = count;
-    while (cList->count > cList->maxCount) {
-        int oldMaxCount = cList->maxCount;
-        cList->maxCount *= GROWTH_RATE;
-        if (cList->count == oldMaxCount) {
-            cList->maxCount += 1;
-        }
-    }
-
-    cList->data = realloc(cList->data, cList->maxCount);
-}
-
-inline void gnArrayListReserve(gnArrayList* cList, int count) {
-    while (cList->count > cList->maxCount) {
-        int oldMaxCount = cList->maxCount;
-        cList->maxCount *= GROWTH_RATE;
-        if (cList->count == oldMaxCount) {
-            cList->maxCount += 1;
-        }
-    }
-
-    cList->data = realloc(cList->data, cList->maxCount);
-}
+GN_ARRAY_LIST(int);
