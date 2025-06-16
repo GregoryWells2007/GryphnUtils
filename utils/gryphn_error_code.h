@@ -40,7 +40,8 @@ typedef enum gnReturnCode_t {
     GN_FAILED_TO_CREATE_BUFFER,
     GN_FAILED_TO_ALLOCATE_MEMORY,
     GN_FAILED_TO_CREATE_IMAGE,
-    GN_FAILED_TO_CREATE_SAMPLER
+    GN_FAILED_TO_CREATE_SAMPLER,
+    GN_FAILED_TO_LOAD_FUNCTION
 } gnReturnCode;
 
 typedef gnReturnCode gnErrorCode;
@@ -86,5 +87,6 @@ static const char* gnErrorCodeToCString(enum gnReturnCode_t returnCode) {
     case GN_FAILED_TO_CREATE_BUFFER: return "GN_FAILED_TO_CREATE_BUFFER";
     case GN_FAILED_TO_CREATE_IMAGE: return "GN_FAILED_TO_CREATE_IMAGE";
     case GN_FAILED_TO_CREATE_SAMPLER: return "GN_FAILED_TO_CREATE_SAMPLER";
+    case GN_FAILED_TO_LOAD_FUNCTION: return "GN_FAILED_TO_LOAD_FUNCTION";
     }
 }
