@@ -20,6 +20,18 @@ int newCount = count - (list->maxSize - list->count);\
 list->data = realloc(list->data, sizeof(type) * (newCount + list->maxSize)); \
 list->maxSize += newCount; \
 }\
+inline static void type##ArrayListExpand(type##ArrayList* list, int count) { \
+list->data = realloc(list->data, sizeof(type) * (count + list->maxSize)); \
+list->maxSize += count; \
+}\
+inline static void type##ArrayListAdd(type##ArrayList* list, type data) { \
+if (list->count >= list->maxSize) {\
+    list->maxSize *= 2; \
+    list->data = realloc(list->data, sizeof(type) * list->maxSize); \
+} \
+list->data[list->count] = data;\
+list->count++;\
+}\
 inline static void type##ArrayListResize(type##ArrayList* list, int count) { \
 int newCount = count - (list->maxSize - list->count);\
 list->data = realloc(list->data, sizeof(type) * (newCount + list->maxSize)); \
