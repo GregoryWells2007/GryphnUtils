@@ -10,7 +10,7 @@ type* data; \
 } type##ArrayList; \
 inline static type##ArrayList type##ArrayListCreate() { \
 type##ArrayList list;\
-list.maxSize = 2; \
+list.maxSize = 1; \
 list.count = 0;\
 list.data = malloc(sizeof(type) * list.maxSize); \
 return list; \
