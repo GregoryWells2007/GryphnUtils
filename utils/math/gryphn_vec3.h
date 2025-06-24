@@ -35,7 +35,8 @@ static const inline gnVec3 gnVec3Normalize(gnVec3 in) {
 }
 static const inline gnVec3 gnVec3Cross(gnVec3 a, gnVec3 b) { return (gnVec3){a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x}; }
 static const inline float gnVec3Dot(gnVec3 a, gnVec3 b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
-
+static const inline gnVec3 gnVec3Multiply(gnVec3 a, gnVec3 b) { return (gnVec3){ a.x * b.x, a.y * b.y, a.z * b.z }; }
+static const inline gnVec3 gnVec3MultiplyBy(gnVec3 a, float b) { return (gnVec3){ a.x * b, a.y * b, a.z * b }; }
 
 typedef gnVec3 gnFVec3;
 typedef gnVec3 gnFloat3;
