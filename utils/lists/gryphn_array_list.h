@@ -37,6 +37,22 @@ int newCount = count - (list->maxSize - list->count);\
 list->data = realloc(list->data, sizeof(type) * (newCount + list->maxSize)); \
 list->maxSize += newCount; \
 list->count += count; \
+} \
+inline static void type##ArrayListRemove(type##ArrayList* list) { \
+if (list->count == 0) return; \
+list->count--; \
+} \
+inline static void type##ArrayListPopHead(type##ArrayList* list) { \
+if (list->count == 0) return; \
+list->count--; \
+for (int i = 0; i < list->count; i++) { \
+list->data[i] = list->data[i + 1];\
+} \
 }
 
+
+
+//metalAvaliableTextureArrayListPopHead
+
 GN_ARRAY_LIST(int);
+GN_ARRAY_LIST(uint32_t);
