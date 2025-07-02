@@ -45,6 +45,7 @@ typedef struct gnUInt3 {
     union {
         struct { uint32_t a, b, c; };
         struct { uint32_t x, y, z; };
+        struct { uint32_t width, height, depth; };
     };
 
 #ifdef GN_UTILS_CPP
@@ -65,6 +66,9 @@ typedef struct gnUInt3 {
     }
 #endif
 } gnUInt3;
+
+typedef gnUInt3 gnUVec3;
+typedef gnUInt3 gnExtent3D;
 
 typedef struct gnInt3 {
     union {
