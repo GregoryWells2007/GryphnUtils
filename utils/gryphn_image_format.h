@@ -3,12 +3,14 @@
 typedef enum gnImageFormat {
     GN_FORMAT_NONE,
     GN_FORMAT_BGRA8_SRGB,
+    GN_FORMAT_BGRA8,
     GN_FORMAT_RGBA8_SRGB,
     GN_FORMAT_D24S8_UINT,
     GN_FORMAT_D32S8_UINT,
 } gnImageFormat;
 
 typedef enum gnColorSpace {
+    GN_COLOR_SPACE_NONE,
     GN_COLOR_SPACE_SRGB_NONLINEAR
 } gnColorSpace;
 
