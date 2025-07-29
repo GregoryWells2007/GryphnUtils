@@ -1,7 +1,6 @@
 #pragma once
 
 #include <utils/gryphn_bool.h>
-#include <utils/gryphn_error_code.h>
 #include <utils/gryphn_version.h>
 #include <utils/math/gryphn_vec2.h>
 #include <utils/math/gryphn_vec3.h>
