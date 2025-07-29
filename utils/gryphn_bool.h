@@ -1,5 +1,6 @@
 #pragma once
+#include <stdint.h>
 
-typedef int gnBool;
-#define gnFalse 0
-#define gnTrue 1
+typedef uint32_t gnBool;
+#define GN_FALSE 0
+#define GN_TRUE 1

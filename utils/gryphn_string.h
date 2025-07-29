@@ -122,10 +122,10 @@ static int gnStringFindString(const gnString string, const gnString value) {
     char first_char = value.value[0];
     for (int i = 0; i < strlen(string.value); i++)
         if (string.value[i] == first_char) {
-            gnBool same = gnTrue;
+            gnBool same = GN_TRUE;
             for (int c = 1; c < strlen(value.value); c++)
                 if (string.value[i + c] != value.value[c]) {
-                    same = gnFalse;
+                    same = GN_FALSE;
                     break;
                 }
 
