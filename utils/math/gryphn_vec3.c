@@ -8,8 +8,8 @@ gnVec3 gnVec3Subtract(gnVec3 a, gnVec3 b) { return (gnVec3){
 }
 gnVec3 gnVec3Add(gnVec3 a, gnVec3 b) { return (gnVec3){
     .x = a.x + b.x,
-    .b = a.y + b.y,
-    .c = a.z + b.z };
+    .y = a.y + b.y,
+    .z = a.z + b.z };
 }
 gnVec3 gnVec3Normalize(gnVec3 in) {
     float lengthOfVector = sqrt((in.x * in.x) + (in.y * in.y) + (in.z * in.z));
