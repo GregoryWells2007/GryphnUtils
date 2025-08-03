@@ -11,7 +11,8 @@ void type##ArrayListResize(type##ArrayList list, int count); \
 void type##ArrayListRemove(type##ArrayList list); \
 void type##ArrayListPopHead(type##ArrayList list); \
 uint32_t type##ArrayListCount(type##ArrayList list); \
-type type##ArrayAt(type##ArrayList list, int i);
+type type##ArrayListAt(type##ArrayList list, int i); \
+type* type##ArrayListData(type##ArrayList list)
 
 #define GN_ARRAY_LIST_DEFINITION(type)\
 typedef struct type##ArrayList_t { \
@@ -63,13 +64,16 @@ list->data[i] = list->data[i + 1];\
 uint32_t type##ArrayListCount(type##ArrayList list) { \
     return list->count; \
 } \
-type type##ArrayAt(type##ArrayList list, int i) { \
+type type##ArrayListAt(type##ArrayList list, int i) { \
     return list->data[i]; \
+} \
+type* type##ArrayListData(type##ArrayList list) { \
+    return &list->data[0]; \
 }
 
 
-GN_ARRAY_LIST_HEADER(uint32_t)
+GN_ARRAY_LIST_HEADER(uint32_t);
 GN_ARRAY_LIST_DEFINITION(uint32_t)
 
-GN_ARRAY_LIST_HEADER(int)
+GN_ARRAY_LIST_HEADER(int);
 GN_ARRAY_LIST_DEFINITION(int)
