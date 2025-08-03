@@ -77,7 +77,4 @@ type* type##ArrayListData(type##ArrayList list) { \
 
 
 GN_ARRAY_LIST_HEADER(uint32_t);
-GN_ARRAY_LIST_DEFINITION(uint32_t)
-
 GN_ARRAY_LIST_HEADER(int);
-GN_ARRAY_LIST_DEFINITION(int)
