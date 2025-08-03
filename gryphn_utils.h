@@ -8,5 +8,4 @@
 #include <utils/math/gryphn_mat4.h>
 #include <utils/math/gryphn_math.h>
 #include <utils/gryphn_color.h>
-#include <utils/gryphn_image_format.h>
 #include <utils/lists/gryphn_array_list.h>
