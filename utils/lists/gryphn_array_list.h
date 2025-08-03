@@ -12,6 +12,7 @@ void type##ArrayListRemove(type##ArrayList list); \
 void type##ArrayListPopHead(type##ArrayList list); \
 uint32_t type##ArrayListCount(type##ArrayList list); \
 type type##ArrayListAt(type##ArrayList list, int i); \
+type* type##ArrayListRefAt(type##ArrayList list, int i); \
 type* type##ArrayListData(type##ArrayList list)
 
 #define GN_ARRAY_LIST_DEFINITION(type)\
@@ -66,6 +67,9 @@ uint32_t type##ArrayListCount(type##ArrayList list) { \
 } \
 type type##ArrayListAt(type##ArrayList list, int i) { \
     return list->data[i]; \
+} \
+type* type##ArrayListRefAt(type##ArrayList list, int i) { \
+    return &list->data[i]; \
 } \
 type* type##ArrayListData(type##ArrayList list) { \
     return &list->data[0]; \
