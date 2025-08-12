@@ -1,5 +1,5 @@
 #pragma once
-#include "stdlib.h"
+#include "stdint.h"
 
 #define GN_ARRAY_LIST_HEADER(type)\
 typedef struct type##ArrayList_t* type##ArrayList; \
